@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:data_base_app/controller/comida_controller.dart';
 import 'package:data_base_app/infrastructure/models/comida_model.dart';
 import 'package:data_base_app/presentation/screens/add_edit_screen.dart';
@@ -74,7 +76,8 @@ class HomeScreen extends StatelessWidget {
           itemCount: controller.comidas.length,
           itemBuilder: (context, index) {
             final comida = controller.comidas[index];
-            return _buildComidaCard(comida, controller);
+            log("Mostrando comidas :::> $comida");
+            return _buildComidaCard(comida, controller,context);
           },
         );
       }),
@@ -89,7 +92,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildComidaCard(Comida comida, ComidaController controller) {
+  Widget _buildComidaCard(Comida comida, ComidaController controller,BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
       elevation: 4,
@@ -98,7 +101,7 @@ class HomeScreen extends StatelessWidget {
       ),
       child: ListTile(
         leading: CircleAvatar(
-          //backgroundColor: controller.getColorForTipo(comida.tipo),
+          backgroundColor: controller.getColorForTipo(comida.tipo),
           child: Text(
             comida.plato[0].toUpperCase(),
             style: const TextStyle(
@@ -140,17 +143,17 @@ class HomeScreen extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.edit, color: Colors.blue),
               onPressed: () {
-                //controller.loadComidaForEdit(comida);
+                controller.loadComidaForEdit(comida);
                 Get.to(() => const AddEditScreen());
               },
             ),
             IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () {}//=> _confirmDelete(context, comida.id!, controller),
+              onPressed: () => _confirmDelete(context, comida.id!, controller),
             ),
           ],
         ),
-        //onTap: () => _showComidaDetails(context, comida),
+        onTap: () => _showComidaDetails(context, comida),
       ),
     );
   }
@@ -168,7 +171,7 @@ class HomeScreen extends StatelessWidget {
           TextButton(
             onPressed: () {
               Get.back();
-              //controller.deleteComida(id);
+              controller.deleteComida(id);
             },
             child: const Text(
               'Eliminar',
@@ -194,7 +197,7 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               Get.back();
               final controller = Get.find<ComidaController>();
-              //controller.deleteAllComidas();
+              controller.deleteAllComidas();
             },
             child: const Text(
               'Eliminar todas',
@@ -238,10 +241,10 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
             const Divider(),
-            // _buildDetailRow(
-            //   'Agregada',
-            //   '${comida.fechaAgregada.day}/${comida.fechaAgregada.month}/${comida.fechaAgregada.year}',
-            // ),
+            _buildDetailRow(
+              'Agregada',
+              'Con exito !!!'
+            ),
           ],
         ),
         actions: [

@@ -17,6 +17,7 @@ class Comida{
   //convertir de map a objeto
   factory Comida.fromMap(Map<String,dynamic> json){
     return Comida(
+      id: json['id'],
       plato: json['plato'], 
       tipo:  json['tipo'],
       pais:  json['pais'],
@@ -35,5 +36,9 @@ class Comida{
       'calificacion':calificacion,
       'descripcion':descripcion,
     };
+  }
+  @override
+  String toString() {
+    return 'Comida(id: $id, plato: $plato, tipo: $tipo, pais: $pais, calificacion: $calificacion, descripcion: $descripcion)';
   }
 }
